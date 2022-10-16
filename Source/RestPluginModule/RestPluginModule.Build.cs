@@ -1,3 +1,5 @@
+using UnrealBuildTool;
+
 namespace UnrealBuildTool.Rules
 {
 	public class RestPluginModule : ModuleRules
@@ -27,6 +29,8 @@ namespace UnrealBuildTool.Rules
                 "RestPlugin/Private"
             }
             );
+
+            PublicIncludePathModuleNames.Add("RestPluginModule");
 		}
 	}
 }
