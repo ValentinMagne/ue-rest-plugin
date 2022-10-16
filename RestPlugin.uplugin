@@ -16,7 +16,7 @@
 	"Installed": true,
 	"Modules": [
 		{
-			"Name": "RestPlugin",
+			"Name": "RestPluginModule",
 			"Type": "Runtime",
 			"LoadingPhase": "Default"
 		}

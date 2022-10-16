@@ -1,6 +1,3 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "RestLibrary.h"
 
 DEFINE_LOG_CATEGORY(RestLibrary);

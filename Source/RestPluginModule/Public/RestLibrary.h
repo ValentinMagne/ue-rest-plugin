@@ -1,5 +1,3 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
 
 #include "CoreMinimal.h"
@@ -13,7 +11,7 @@ DECLARE_LOG_CATEGORY_EXTERN(RestLibrary, Log, All);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnRequestComplete, FString, response);
 
 UCLASS(BlueprintType, Blueprintable)
-class RESTPLUGIN_API URestLibrary : public UObject
+class RESTPLUGINMODULE_API URestLibrary : public UObject
 {
 	GENERATED_UCLASS_BODY()
 
