@@ -24,7 +24,10 @@ public:
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "Send Get Request", Keywords = "Http Get Request"), Category = "RestPlugin")
 	void ProcessRequestGet(FString URL);
 
-	void OnResponseGetReceived(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful);
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "Send Post Request", Keywords = "Http Post Request"), Category = "RestPlugin")
+	void ProcessRequestPost(FString URL, FString body);
+
+	void OnResponseReceived(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful);
 
 	UPROPERTY(BlueprintAssignable, Category = "RestPlugin")
 	FOnRequestComplete onRequestComplete;

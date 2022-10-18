@@ -2,7 +2,6 @@
 
 DEFINE_LOG_CATEGORY(RestLibrary);
 
-// Sets default values
 URestLibrary::URestLibrary(const FObjectInitializer& init)
 	:Super(init)
 {
@@ -11,7 +10,7 @@ URestLibrary::URestLibrary(const FObjectInitializer& init)
 
 float URestLibrary::RestPluginSampleFunction(float Param)
 {
-	return Param * 3;
+	return Param * 100;
 }
 
 void URestLibrary::ProcessRequestGet(FString URL)
@@ -20,7 +19,7 @@ void URestLibrary::ProcessRequestGet(FString URL)
 
 	TSharedRef<IHttpRequest, ESPMode::ThreadSafe> HttpRequest = FHttpModule::Get().CreateRequest();
 
-	HttpRequest->OnProcessRequestComplete().BindUObject(this, &URestLibrary::OnResponseGetReceived);
+	HttpRequest->OnProcessRequestComplete().BindUObject(this, &URestLibrary::OnResponseReceived);
 
 	HttpRequest->SetURL(URL);
 
@@ -31,14 +30,33 @@ void URestLibrary::ProcessRequestGet(FString URL)
 	HttpRequest->ProcessRequest();
 }
 
-void URestLibrary::OnResponseGetReceived(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful)
+void URestLibrary::ProcessRequestPost(FString URL, FString body)
+{
+	UE_LOG(RestLibrary, Log, TEXT("Process POST request for : %s"), *URL);
+	UE_LOG(RestLibrary, Log, TEXT("Process POST request with body : %s"), *body);
+
+	TSharedRef<IHttpRequest, ESPMode::ThreadSafe> HttpRequest = FHttpModule::Get().CreateRequest();
+
+	HttpRequest->OnProcessRequestComplete().BindUObject(this, &URestLibrary::OnResponseReceived);
+
+	HttpRequest->SetURL(URL);
+
+	HttpRequest->SetVerb("Post");
+
+	HttpRequest->SetHeader(TEXT("User-Agent"), "X-UnrealEngine-Agent");
+
+	HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("application/json"));
+
+	HttpRequest->SetContentAsString(body);
+
+	HttpRequest->ProcessRequest();
+}
+
+void URestLibrary::OnResponseReceived(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful)
 {
 	if (bWasSuccessful)
 	{
 		UE_LOG(RestLibrary, Log, TEXT("GET RESPONSE : %s"), *Response->GetContentAsString());
-
-		// TODO http://www.orfeasel.com/parsing-json-files/ or use JSON parser plugin (from IWAGD) ? 
-
 		GLog->Log(TEXT("END REQUEST"));
 		FString JSONString = Response->GetContentAsString();
 		onRequestComplete.Broadcast(JSONString);
