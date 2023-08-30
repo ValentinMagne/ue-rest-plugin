@@ -15,17 +15,17 @@ class RESTPLUGINMODULE_API URestLibrary : public UObject
 {
 	GENERATED_UCLASS_BODY()
 
-public:	
+public:
 	URestLibrary();
 
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "Execute Sample function", Keywords = "HttpBlueprintPlugin sample test testing"), Category = "RestPlugin")
 	float RestPluginSampleFunction(float Param);
 
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "Send Get Request", Keywords = "Http Get Request"), Category = "RestPlugin")
-	void ProcessRequestGet(FString URL);
+	void ProcessRequestGet(FString URL, FString botmanSession);
 
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "Send Post Request", Keywords = "Http Post Request"), Category = "RestPlugin")
-	void ProcessRequestPost(FString URL, FString body);
+	void ProcessRequestPost(FString URL, FString body, FString botmanSession);
 
 	void OnResponseReceived(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful);
 

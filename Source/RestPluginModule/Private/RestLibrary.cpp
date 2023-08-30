@@ -13,7 +13,7 @@ float URestLibrary::RestPluginSampleFunction(float Param)
 	return Param * 100;
 }
 
-void URestLibrary::ProcessRequestGet(FString URL)
+void URestLibrary::ProcessRequestGet(FString URL, FString botmanSession)
 {
 	UE_LOG(RestLibrary, Log, TEXT("Process GET request for : %s"), *URL);
 
@@ -26,11 +26,15 @@ void URestLibrary::ProcessRequestGet(FString URL)
 	HttpRequest->SetVerb("Get");
 
 	HttpRequest->SetHeader(TEXT("User-Agent"), "X-UnrealEngine-Agent");
+	HttpRequest->SetHeader(TEXT("initialBotId"), "DJINGO_ACCUEIL");
+	HttpRequest->SetHeader(TEXT("Content-Type"), "application/json");
+	HttpRequest->SetHeader(TEXT("x-orange-callerid"), "fwc");
+	HttpRequest->SetHeader(TEXT("botmanSession"), botmanSession);
 
 	HttpRequest->ProcessRequest();
 }
 
-void URestLibrary::ProcessRequestPost(FString URL, FString body)
+void URestLibrary::ProcessRequestPost(FString URL, FString body, FString botmanSession)
 {
 	UE_LOG(RestLibrary, Log, TEXT("Process POST request for : %s"), *URL);
 	UE_LOG(RestLibrary, Log, TEXT("Process POST request with body : %s"), *body);
@@ -44,8 +48,12 @@ void URestLibrary::ProcessRequestPost(FString URL, FString body)
 	HttpRequest->SetVerb("Post");
 
 	HttpRequest->SetHeader(TEXT("User-Agent"), "X-UnrealEngine-Agent");
+	HttpRequest->SetHeader(TEXT("initialBotId"), "DJINGO_ACCUEIL");
+	HttpRequest->SetHeader(TEXT("Content-Type"), "application/json");
 
-	HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("application/json"));
+    HttpRequest->SetHeader(TEXT("botmanSession"), botmanSession);
+    HttpRequest->SetHeader(TEXT("messageType"), "user_message");
+    HttpRequest->SetHeader(TEXT("x-orange-callerid"), "fwc");
 
 	HttpRequest->SetContentAsString(body);
 
